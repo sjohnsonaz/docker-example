@@ -1,0 +1,19 @@
+{
+  "name": "docker-example",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build":"tsc",
+    "start": "tsc-watch --onSuccess \"node ./dist/index.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^14.0.18",
+    "tsc-watch": "^4.2.9",
+    "typescript": "^3.9.6"
+  }
+}
