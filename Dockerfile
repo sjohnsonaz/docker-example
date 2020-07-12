@@ -1,8 +1,6 @@
-FROM alpine:latest
+FROM node:slim
 
-RUN apk add --update nodejs nodejs-npm
-
-COPY ./dist /dist
+COPY . /
 
 RUN npm install && npm run build
 
