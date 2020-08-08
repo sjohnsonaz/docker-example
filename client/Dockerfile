@@ -1,6 +1,8 @@
 FROM node:latest AS builder
-COPY . /
-RUN npm run abstract
+COPY package.json package-lock.json tsconfig.json webpack.config.js /
+RUN npm ci
+COPY ./src /src
+RUN npm run build
 
 FROM nginx:latest
-COPY --from=builder /bundle /usr/share/nginx/html
+COPY --from=builder /build /usr/share/nginx/html
