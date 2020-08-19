@@ -1,48 +1,30 @@
-import http from 'http';
+import { exit, run } from './Runner';
+import { Server } from './Server';
 
-async function listen(server: http.Server, port: number) {
-    return new Promise((resolve, reject) => {
-        server.on('error', reject);
-        server.on('listening', resolve)
-        server.listen(port);
-    });
-}
-
-async function shutdown(server: http.Server) {
-    await new Promise((resolve, reject) => {
-        server.close(error => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve();
-            }
-        });
-    });
-}
-
-(async () => {
+async function main() {
     try {
-        const server = http.createServer((_req, res) => {
-            res.write('Server is running');
+        const server = new Server((_req, res) => {
+            const data = { value: 'Server is running' };
+            res.setHeader('Content-Type', 'application/json');
+            res.write(JSON.stringify(data));
             res.end();
         });
-        await listen(server, 8080);
+
+        await server.start(8080);
         console.log('listening to port 8080');
-        process.on('SIGINT', async () => {
-            console.log('Server is stopping');
-            try {
-                await shutdown(server);
-            }
-            catch (e) {
-                console.error(e);
-            }
-            finally {
-                console.log('Closing');
-                process.exit();
-            }
-        });
+
+        await run();
+        console.log('stopping...');
+
+        await server.stop();
+        console.log('stopped');
     }
     catch (e) {
         console.error(e);
     }
-})();
+    finally {
+        exit();
+    }
+}
+
+main();

@@ -1,8 +1,24 @@
 window.onload = async function () {
-    console.log('test');
+    console.log('Client running...');
+    try {
+        await showData();
+    }
+    catch (e) {
+        console.error(e);
+    }
+}
+
+async function showData() {
     const root = document.getElementById('root');
     if (root) {
-        const data = await (await fetch('/api')).text();
-        root.innerHTML = data;
+        const data = await getData();
+        root.innerHTML = data.value;
+    } else {
+        throw 'No root element';
     }
+}
+
+async function getData() {
+    const result = await fetch('/api');
+    return result.json();
 }
