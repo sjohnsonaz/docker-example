@@ -1,8 +1,12 @@
 FROM node:slim
 
-COPY . /
+COPY package.json package-lock.json tsconfig.json /
 
-RUN npm install && npm run build
+RUN npm install
+
+COPY ./src /src
+
+RUN npm run build
 
 EXPOSE 8080
 
