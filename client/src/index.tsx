@@ -11,7 +11,8 @@ window.onload = async function () {
 async function showData() {
     const root = document.getElementById('root');
     if (root) {
-        root.innerHTML = await getData();
+        const data = await getData();
+        root.innerHTML = data.value;
     } else {
         throw 'No root element';
     }
@@ -19,5 +20,5 @@ async function showData() {
 
 async function getData() {
     const result = await fetch('/api');
-    return result.text();
+    return result.json();
 }
