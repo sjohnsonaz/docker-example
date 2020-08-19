@@ -1,0 +1,8 @@
+FROM node:latest
+COPY package.json package-lock.json tsconfig.json webpack.config.js /
+RUN npm ci
+COPY ./src /src
+
+EXPOSE 8080
+
+CMD npm start

@@ -1,0 +1,20 @@
+version: '3.6'
+services:
+  ingress:
+    build:
+      context: ./ingress
+    container_name: ingress
+    ports:
+      - '8080:8080'
+  server:
+    build:
+      context: ./server
+    command: ["npm", "run", "debug"]
+    container_name: server
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    container_name: client
+    volumes: 
+      - ./client/src:/src
