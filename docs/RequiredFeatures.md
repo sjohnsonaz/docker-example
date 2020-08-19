@@ -7,6 +7,7 @@
   * Run
     * Auto reload
   * Debug
+    * Source Map
   * Test
 * Continuous Integration
 * Continuous Deployment

@@ -1,11 +1,5 @@
 version: '3.6'
 services:
-  ingress:
-    build:
-      context: ./ingress
-    container_name: ingress
-    ports:
-      - '8080:8080'
   server:
     build:
       context: ./server
@@ -16,5 +10,10 @@ services:
       context: ./client
       dockerfile: Dockerfile.dev
     container_name: client
+    ports:
+      - '8080:8080'
     volumes: 
       - ./client/src:/src
+      - node_modules:/src/node_modules
+volumes:
+  node_modules:
