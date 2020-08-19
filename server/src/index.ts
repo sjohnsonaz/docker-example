@@ -1,7 +1,7 @@
 import { exit, run } from './Runner';
 import { Server } from './Server';
 
-(async () => {
+async function main() {
     try {
         const server = new Server((_req, res) => {
             const data = { value: 'Server is running' };
@@ -25,4 +25,8 @@ import { Server } from './Server';
     finally {
         exit();
     }
+}
+
+(async () => {
+    await main();
 })();
