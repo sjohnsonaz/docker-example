@@ -1,0 +1,12 @@
+FROM node:slim AS builder
+
+COPY package.json package-lock.json tsconfig.json /
+
+RUN npm install
+
+COPY /src /src
+
+EXPOSE 8080
+EXPOSE 9229
+
+CMD npm start

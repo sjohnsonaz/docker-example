@@ -3,8 +3,13 @@ services:
   server:
     build:
       context: ./server
-    command: ["npm", "run", "debug"]
+      dockerfile: Dockerfile.dev
     container_name: server
+    ports:
+      - '9229:9229'
+    volumes: 
+      - ./server/src:/src
+      - ./server/dist:/dist
   client:
     build:
       context: ./client
