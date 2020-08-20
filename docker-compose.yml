@@ -9,7 +9,6 @@ services:
   server:
     build:
       context: ./server
-    command: ["npm", "run", "debug"]
     container_name: server
   client:
     build:
