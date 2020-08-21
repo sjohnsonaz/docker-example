@@ -3,8 +3,11 @@ import { Server } from './Server';
 
 async function main() {
     try {
-        const server = new Server((_req, res) => {
-            const data = { value: 'Server is running' };
+        const server = new Server((req, res) => {
+            const data = {
+                value: 'Server is running',
+                url: req.url
+            };
             res.setHeader('Content-Type', 'application/json');
             res.write(JSON.stringify(data));
             res.end();
