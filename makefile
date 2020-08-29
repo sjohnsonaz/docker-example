@@ -41,3 +41,13 @@ install-client:
 .PHONY: install-server
 install-server:
 	cd server && npm install
+
+docs: docs-up
+
+.PHONY: docs-up
+docs-up:
+	cd docs && docker-compose up
+
+.PHONY: docs-down
+docs-down:
+	cd docs && docker-compose down

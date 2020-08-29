@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  docsify:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/docs
+    ports:
+      - "3000:3000"
+      - "35729:35729"
