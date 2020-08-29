@@ -5,6 +5,7 @@ up:
 	docker-compose up -d
 
 .PHONY: up-dev
+up-dev:
 	docker-compose -f docker-compose.dev.yml up
 
 .PHONY: down
@@ -20,6 +21,7 @@ build:
 	docker-compose build
 
 .PHONY: build-dev
+build-dev:
 	docker-compose -f docker-compose.dev.yml build
 
 .PHONY: stop
