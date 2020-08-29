@@ -11,3 +11,8 @@ stop:
 	docker-compose stop
 start:
 	docker-compose start
+install: install-client install-server
+install-client:
+	cd client && npm install
+install-server:
+	cd server && npm install
