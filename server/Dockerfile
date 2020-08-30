@@ -1,4 +1,4 @@
-FROM node:slim AS builder
+FROM node:latest AS builder
 
 COPY package.json package-lock.json tsconfig.json /
 
@@ -10,7 +10,7 @@ RUN npm run build
 
 
 
-FROM node:slim
+FROM node:latest
 
 COPY package.json package-lock.json /
 
