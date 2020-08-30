@@ -1,16 +1,10 @@
 version: '3.6'
 services:
   ingress:
-    build:
-      context: ./ingress
-    container_name: ingress
+    build: ./ingress
     ports:
       - '8080:8080'
   server:
-    build:
-      context: ./server
-    container_name: server
+    build: ./server
   client:
-    build:
-      context: ./client
-    container_name: client
+    build: ./client
