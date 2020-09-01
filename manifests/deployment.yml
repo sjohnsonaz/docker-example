@@ -1,15 +1,19 @@
 apiVersion : apps/v1
+kind: Deployment
 metadata:
-  name: docker-example_client 
+  name: docker-example-client 
 spec:
+  selector:
+    matchLabels:
+      app: docker-example-client 
   replicas: 1
   template:
     metadata:
       labels:
-        app: docker-example_client 
+        app: docker-example-client 
     spec:
       containers:
-        - name: docker-example_client 
+        - name: docker-example-client 
           image: sjohnsonaz.azurecr.io/docker-example_client
           ports:
           - containerPort: 80

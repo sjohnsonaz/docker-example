@@ -1,10 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: docker-example_client
+    name: docker-example-client
 spec:
     type: LoadBalancer
     ports:
-    - port: 80 
+    - port: 80
+      targetPort: 80
     selector:
-        app: docker-example_client
+        app: docker-example-client
