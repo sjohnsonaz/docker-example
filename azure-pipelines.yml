@@ -26,11 +26,20 @@ stages:
         command: login
         containerRegistry: sjohnsonaz
     - task: Docker@2
-      displayName: Build and Push
+      displayName: Build and Push Client
       inputs:
         command: buildAndPush
         repository: docker-example_client
         buildContext: '$(Build.SourcesDirectory)/client'
+        dockerfile: '**/Dockerfile'
+        tags: |
+          $(tag)
+    - task: Docker@2
+      displayName: Build and Push Server
+      inputs:
+        command: buildAndPush
+        repository: docker-example_server
+        buildContext: '$(Build.SourcesDirectory)/server'
         dockerfile: '**/Dockerfile'
         tags: |
           $(tag)
