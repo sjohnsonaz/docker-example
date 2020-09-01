@@ -24,7 +24,7 @@ stages:
       displayName: Login to ACR
       inputs:
         command: login
-        containerRegistry: sjohnsonaz.azurecr.io
+        containerRegistry: sjohnsonaz
     - task: Docker@2
       displayName: Build and Push
       inputs:
