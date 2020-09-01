@@ -1,16 +1,16 @@
 apiVersion : apps/v1beta1
 kind: Deployment
 metadata:
-  name: dockerexampleclient 
+  name: docker-example_client 
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: dockerexampleclient 
+        app: docker-example_client 
     spec:
       containers:
-        - name: dockerexampleclient 
-          image: sjohnsonaz.azurecr.io/dockerexampleclient
+        - name: docker-example_client 
+          image: sjohnsonaz.azurecr.io/docker-example_client
           ports:
           - containerPort: 80
