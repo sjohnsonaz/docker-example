@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: docker-example-server
+spec:
+    type: LoadBalancer
+    ports:
+    - port: 8082
+      targetPort: 8080
+    selector:
+        app: docker-example-server
+---
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: docker-example-server 
+spec:
+  selector:
+    matchLabels:
+      app: docker-example-server 
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: docker-example-server 
+    spec:
+      containers:
+        - name: docker-example-server 
+          image: docker-example_server
+          imagePullPolicy: Never
+          ports:
+          - containerPort: 8080
