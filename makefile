@@ -1,4 +1,10 @@
+PROJECT = docker-example
+
 default: up
+
+#------------------------
+# Docker Compose Commands
+#------------------------
 
 .PHONY: up
 up:
@@ -32,6 +38,11 @@ stop:
 start:
 	docker-compose start
 
+
+#-----------------------
+# Local Install Commands
+#-----------------------
+
 install: install-client install-server
 
 .PHONY: install-client
@@ -42,6 +53,11 @@ install-client:
 install-server:
 	cd server && npm install
 
+
+#--------------
+# Docs Commands
+#--------------
+
 docs: docs-up
 
 .PHONY: docs-up
@@ -51,3 +67,87 @@ docs-up:
 .PHONY: docs-down
 docs-down:
 	cd docs && docker-compose down
+
+
+#----------------------------
+# Dev Docker Compose Commands
+#----------------------------
+
+.PHONY: dev-up
+dev-up: 
+	docker-compose\
+		-f docker-compose.yml\
+		-f docker-compose.dev.yml\
+		up
+
+.PHONY: dev-build
+dev-build:
+	docker-compose\
+		-f docker-compose.yml\
+		-f docker-compose.dev.yml\
+		build
+
+
+#-------------
+# Dev Commands
+#-------------
+
+dev-run: dev-build dev-install
+
+dev-install: dev-client-install dev-server-install
+
+.PHONY: dev-client-install
+dev-client-install:
+	docker run\
+		-v $(PROJECT)_client_node_modules:/client/node_modules\
+		$(PROJECT)_client\
+		npm install
+
+.PHONY: dev-server-install
+dev-server-install:
+	docker run\
+		-v $(PROJECT)_server_node_modules:/server/node_modules\
+		$(PROJECT)_server\
+		npm install
+
+.PHONY: dev-network-build
+dev-network-build:
+	docker network create\
+		-d bridge\
+		$(PROJECT)_network
+
+.PHONY: dev-client-build
+dev-client-build:
+	docker build\
+		-t $(PROJECT)_client\
+		-f ./client/Dockerfile.dev\
+		./client
+	docker volume create\
+		$(PROJECT)_client_node_modules
+
+.PHONY: dev-server-build
+dev-server-build:
+	docker build\
+		-t $(PROJECT)_server\
+		-f ./client/Dockerfile.dev\
+		./server
+	docker volume create\
+		$(PROJECT)_server_node_modules
+
+.PHONY: dev-client-run
+dev-client-run:
+	docker run\
+		-v $(PROJECT)_client_node_modules:/client/node_modules\
+		-p 8080:8080\
+		--network=$(PROJECT)_network\
+		--name=$(PROJECT)_client\
+		$(PROJECT)_client
+
+.PHONY: dev-server-run
+dev-server-run:
+	docker run\
+		-v $(PROJECT)_server_node_modules:/server/node_modules\
+		-p 9229:9229\
+		--network=$(PROJECT)_network\
+		--name=$(PROJECT)_server\
+		$(PROJECT)_server

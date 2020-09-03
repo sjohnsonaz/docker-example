@@ -1,24 +1,25 @@
-version: '3.6'
+version: '3.8'
 services:
+  ingress:
+    build:
+      context: ./ingress
+      dockerfile: Dockerfile.dev
   server:
     build:
       context: ./server
       dockerfile: Dockerfile.dev
-    container_name: server
     ports:
       - '9229:9229'
     volumes: 
-      - ./server/src:/src
-      - ./server/dist:/dist
+      - ./server:/server
+      - server_node_modules:/server/node_modules
   client:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
-    container_name: client
-    ports:
-      - '8080:8080'
     volumes: 
-      - ./client/src:/src
-      - node_modules:/src/node_modules
+      - ./client:/client
+      - client_node_modules:/client/node_modules
 volumes:
-  node_modules:
+  server_node_modules:
+  client_node_modules:

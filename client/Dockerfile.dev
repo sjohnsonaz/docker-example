@@ -1,10 +1,7 @@
 FROM node:latest
 
-COPY package.json package-lock.json tsconfig.json webpack.config.js /
-
-RUN npm ci
-
-COPY ./src /src
+WORKDIR /client
+COPY . ./
 
 EXPOSE 8080
 
