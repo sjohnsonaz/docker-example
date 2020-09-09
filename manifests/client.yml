@@ -26,6 +26,6 @@ spec:
       containers:
         - name: docker-example-client 
           image: docker-example_client
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 80

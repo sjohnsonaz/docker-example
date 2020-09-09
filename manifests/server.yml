@@ -26,6 +26,6 @@ spec:
       containers:
         - name: docker-example-server 
           image: docker-example_server
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent 
           ports:
           - containerPort: 8080

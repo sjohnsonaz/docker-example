@@ -27,7 +27,7 @@ spec:
       containers:
         - name: docker-example-ingress 
           image: docker-example_ingress
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 80
 ---

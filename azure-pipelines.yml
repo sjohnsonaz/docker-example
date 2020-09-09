@@ -1,5 +1,5 @@
-# Docker
-# Build a Docker image 
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
@@ -9,27 +9,46 @@ resources:
 - repo: self
 
 variables:
+
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: sjohnsonaz
+  imageRepository: 'docker-example'
+  containerRegistry: 'sjohnsonaz.azurecr.io'
   tag: '$(Build.BuildId)'
+  imagePullSecret: 'sjohnsonaz1874adbf-auth'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+  
 
 stages:
 - stage: Build
-  displayName: Build image
+  displayName: Build stage
   jobs:  
   - job: Build
     displayName: Build
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: $(vmImageName)
     steps:
     - task: Docker@2
       displayName: Login to ACR
       inputs:
         command: login
-        containerRegistry: sjohnsonaz
+        containerRegistry: $(dockerRegistryServiceConnection)
+    - task: Docker@2
+      displayName: Build and Push Ingress
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)_ingress
+        buildContext: '$(Build.SourcesDirectory)/ingress'
+        dockerfile: '$(Build.SourcesDirectory)/ingress/Dockerfile'
+        tags: |
+          $(tag)
     - task: Docker@2
       displayName: Build and Push Client
       inputs:
         command: buildAndPush
-        repository: docker-example_client
+        repository: $(imageRepository)_client
         buildContext: '$(Build.SourcesDirectory)/client'
         dockerfile: '$(Build.SourcesDirectory)/client/Dockerfile'
         tags: |
@@ -38,8 +57,47 @@ stages:
       displayName: Build and Push Server
       inputs:
         command: buildAndPush
-        repository: docker-example_server
+        repository: $(imageRepository)_server
         buildContext: '$(Build.SourcesDirectory)/server'
         dockerfile: '$(Build.SourcesDirectory)/server/Dockerfile'
         tags: |
           $(tag)
+          
+    - upload: manifests
+      artifact: manifests
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy
+    pool:
+      vmImage: $(vmImageName)
+    environment: 'DockerExample-1328.default'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: createSecret
+              secretName: $(imagePullSecret)
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+              
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(Pipeline.Workspace)/manifests/client.yml
+                $(Pipeline.Workspace)/manifests/ingress.yml
+                $(Pipeline.Workspace)/manifests/server.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(imageRepository)_client:$(containerRegistry)/$(imageRepository)_client:$(tag)
+                $(imageRepository)_server:$(containerRegistry)/$(imageRepository)_server:$(tag)
+                $(imageRepository)_ingress:$(containerRegistry)/$(imageRepository)_ingress:$(tag)
