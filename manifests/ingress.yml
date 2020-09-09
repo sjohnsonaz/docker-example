@@ -1,3 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: ingress
+spec:
+    type: LoadBalancer
+    ports:
+    - port: 8080
+      targetPort: 8080
+    selector:
+        app: docker-example-ingress
+---
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: docker-example-ingress 
+spec:
+  selector:
+    matchLabels:
+      app: docker-example-ingress 
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: docker-example-ingress 
+    spec:
+      containers:
+        - name: docker-example-ingress 
+          image: docker-example_ingress
+          imagePullPolicy: Never
+          ports:
+          - containerPort: 80
+---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
