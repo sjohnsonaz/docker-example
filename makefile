@@ -116,11 +116,21 @@ dev-network-build:
 		-d bridge\
 		$(PROJECT)_network
 
+.PHONY: dev-build
+dev-build: dev-ingress-build dev-client-build dev-server-build
+
+.PHONY: dev-ingress-build
+dev-ingress-build:
+	docker build\
+		-t sjohnsonaz.azurecr.io/$(PROJECT)/ingress\
+		-f ./ingress/Dockerfile\
+		./ingress
+
 .PHONY: dev-client-build
 dev-client-build:
 	docker build\
-		-t $(PROJECT)_client\
-		-f ./client/Dockerfile.dev\
+		-t sjohnsonaz.azurecr.io/$(PROJECT)/client\
+		-f ./client/Dockerfile\
 		./client
 	docker volume create\
 		$(PROJECT)_client_node_modules
@@ -128,8 +138,8 @@ dev-client-build:
 .PHONY: dev-server-build
 dev-server-build:
 	docker build\
-		-t $(PROJECT)_server\
-		-f ./client/Dockerfile.dev\
+		-t sjohnsonaz.azurecr.io/$(PROJECT)/server\
+		-f ./server/Dockerfile\
 		./server
 	docker volume create\
 		$(PROJECT)_server_node_modules
@@ -151,3 +161,10 @@ dev-server-run:
 		--network=$(PROJECT)_network\
 		--name=$(PROJECT)_server\
 		$(PROJECT)_server
+
+.PHONY: apply
+apply:
+	kubectl apply -f ./manifests/
+
+.PHONY: kube-local
+kube-local: dev-build apply

@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: docker-example-server 
-          image: docker-example_server
+          image: sjohnsonaz.azurecr.io/docker-example/server
           imagePullPolicy: IfNotPresent 
           ports:
           - containerPort: 8080

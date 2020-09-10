@@ -39,7 +39,7 @@ stages:
       displayName: Build and Push Ingress
       inputs:
         command: buildAndPush
-        repository: $(imageRepository)_ingress
+        repository: $(imageRepository)/ingress
         buildContext: '$(Build.SourcesDirectory)/ingress'
         dockerfile: '$(Build.SourcesDirectory)/ingress/Dockerfile'
         tags: |
@@ -48,7 +48,7 @@ stages:
       displayName: Build and Push Client
       inputs:
         command: buildAndPush
-        repository: $(imageRepository)_client
+        repository: $(imageRepository)/client
         buildContext: '$(Build.SourcesDirectory)/client'
         dockerfile: '$(Build.SourcesDirectory)/client/Dockerfile'
         tags: |
@@ -57,7 +57,7 @@ stages:
       displayName: Build and Push Server
       inputs:
         command: buildAndPush
-        repository: $(imageRepository)_server
+        repository: $(imageRepository)/server
         buildContext: '$(Build.SourcesDirectory)/server'
         dockerfile: '$(Build.SourcesDirectory)/server/Dockerfile'
         tags: |
@@ -98,6 +98,6 @@ stages:
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
-                $(imageRepository)_client:$(containerRegistry)/$(imageRepository)_client:$(tag)
-                $(imageRepository)_server:$(containerRegistry)/$(imageRepository)_server:$(tag)
-                $(imageRepository)_ingress:$(containerRegistry)/$(imageRepository)_ingress:$(tag)
+                $(containerRegistry)/$(imageRepository)/client:$(tag)
+                $(containerRegistry)/$(imageRepository)/server:$(tag)
+                $(containerRegistry)/$(imageRepository)/ingress:$(tag)

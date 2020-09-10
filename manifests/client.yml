@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: docker-example-client 
-          image: docker-example_client
+          image: sjohnsonaz.azurecr.io/docker-example/client
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 80
