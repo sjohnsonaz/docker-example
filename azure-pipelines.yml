@@ -16,7 +16,7 @@ variables:
   containerRegistry: 'sjohnsonaz.azurecr.io'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'sjohnsonaz1874adbf-auth'
-  namespace: 'docker-example'
+  namespace: 'default'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -64,8 +64,6 @@ stages:
         tags: |
           $(tag)
           
-    - publish: '$(Build.SourcesDirectory)/namespaces'
-      artifact: namespaces
     - publish: '$(Build.SourcesDirectory)/manifests'
       artifact: manifests
 
@@ -89,13 +87,6 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-          - task: KubernetesManifest@0
-            displayName: Create Namespace
-            inputs:
-              namespace: $(namespace)
-              action: deploy
-              manifests: |
-                $(Pipeline.Workspace)/namespaces/docker-example.yml
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
