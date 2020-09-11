@@ -1,4 +1,5 @@
 PROJECT = docker-example
+NAMESPACE = docker-example
 
 default: up
 
@@ -164,7 +165,7 @@ dev-server-run:
 
 .PHONY: apply
 apply:
-	kubectl apply -f ./manifests/
+	kubectl apply -f ./manifests/ --namespace=$(NAMESPACE)
 
 .PHONY: kube-local
 kube-local: dev-build apply

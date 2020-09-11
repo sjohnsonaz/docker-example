@@ -83,6 +83,7 @@ stages:
           - task: KubernetesManifest@0
             displayName: Create imagePullSecret
             inputs:
+              namespace: docker-example
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
@@ -90,6 +91,7 @@ stages:
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
+              namespace: docker-example
               action: deploy
               manifests: |
                 $(Pipeline.Workspace)/manifests/client.yml

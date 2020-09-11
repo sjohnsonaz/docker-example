@@ -5,7 +5,7 @@ metadata:
 spec:
     type: LoadBalancer
     ports:
-    - port: 8080
+    - port: 80
       targetPort: 8080
     selector:
         app: docker-example-ingress
@@ -29,7 +29,7 @@ spec:
           image: sjohnsonaz.azurecr.io/docker-example/ingress
           imagePullPolicy: IfNotPresent
           ports:
-          - containerPort: 80
+          - containerPort: 8080
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
