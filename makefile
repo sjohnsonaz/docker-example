@@ -163,8 +163,13 @@ dev-server-run:
 		--name=$(PROJECT)_server\
 		$(PROJECT)_server
 
+
+.PHONY: namespace
+namespace:
+	kubectl apply -f ./namespaces/
+
 .PHONY: apply
-apply:
+apply: namespace
 	kubectl apply -f ./manifests/ --namespace=$(NAMESPACE)
 
 .PHONY: kube-local
