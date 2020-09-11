@@ -64,7 +64,9 @@ stages:
         tags: |
           $(tag)
           
-    - upload: manifests
+    - publish: '$(Build.SourcesDirectory)/namespaces'
+      artifact: namespaces
+    - publish: '$(Build.SourcesDirectory)/manifests'
       artifact: manifests
 
 - stage: Deploy
