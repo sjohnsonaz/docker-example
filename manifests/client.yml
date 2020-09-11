@@ -2,29 +2,31 @@ apiVersion: v1
 kind: Service
 metadata:
     name: client
+    namespace: docker-example
 spec:
     ports:
     - port: 80
       targetPort: 80
     selector:
-        app: docker-example-client
+        app: client
 ---
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: docker-example-client 
+  name: client
+  namespace: docker-example
 spec:
   selector:
     matchLabels:
-      app: docker-example-client 
+      app: client 
   replicas: 1
   template:
     metadata:
       labels:
-        app: docker-example-client 
+        app: client 
     spec:
       containers:
-        - name: docker-example-client 
+        - name: client 
           image: sjohnsonaz.azurecr.io/docker-example/client
           imagePullPolicy: IfNotPresent
           ports:

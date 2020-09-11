@@ -1,5 +1,6 @@
 PROJECT = docker-example
 NAMESPACE = docker-example
+INGRESS_VERSION = 0.35.0
 
 default: up
 
@@ -164,13 +165,25 @@ dev-server-run:
 		$(PROJECT)_server
 
 
+#--------------------
+# Kubernetes Commands
+#--------------------
+
+.PHONY: install-ingress
+install-ingress:
+	kubectl apply\
+		-f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v$(INGRESS_VERSION)/deploy/static/provider/do/deploy.yaml
+
 .PHONY: namespace
 namespace:
-	kubectl apply -f ./namespaces/
+	kubectl apply\
+		-f ./namespaces/
 
 .PHONY: apply
 apply: namespace
-	kubectl apply -f ./manifests/ --namespace=$(NAMESPACE)
+	kubectl apply\
+		-f ./manifests/\
+		--namespace=$(NAMESPACE)
 
 .PHONY: kube-local
 kube-local: dev-build apply

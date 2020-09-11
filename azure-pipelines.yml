@@ -16,7 +16,8 @@ variables:
   containerRegistry: 'sjohnsonaz.azurecr.io'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'sjohnsonaz1874adbf-auth'
-  namespace: 'default'
+  namespace: 'docker-example'
+  # ingressVersion: 0.35.0
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -87,6 +88,12 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+          # - task: KubernetesManifest@0
+          #   displayName: Deploy Ingress
+          #   inputs:
+          #     action: deploy
+          #     manifests: |
+          #       https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v$(ingressVersion)/deploy/static/provider/do/deploy.yaml
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
