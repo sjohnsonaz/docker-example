@@ -18,6 +18,7 @@ variables:
   imagePullSecret: 'sjohnsonaz1874adbf-auth'
   namespace: 'docker-example'
   # ingressVersion: 0.35.0
+  environment: 'DockerExample.default'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -77,7 +78,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'DockerExample-1328.default'
+    environment: $(environment)
     strategy:
       runOnce:
         deploy:
