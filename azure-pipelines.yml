@@ -16,7 +16,6 @@ variables:
   containerRegistry: 'sjohnsonaz.azurecr.io'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'sjohnsonaz1874adbf-auth'
-  namespace: 'docker-example'
   # ingressVersion: 0.35.0
 
   # Agent VM image name
@@ -97,7 +96,6 @@ stages:
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
-              namespace: $(namespace)
               action: deploy
               manifests: |
                 $(Pipeline.Workspace)/manifests/client.yml
