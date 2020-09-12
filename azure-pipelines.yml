@@ -76,7 +76,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'DockerExample-1328.default'
+    environment: 'DockerExample.default'
     strategy:
       runOnce:
         deploy:
