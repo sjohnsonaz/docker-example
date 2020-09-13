@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: ingress
 spec:
-    type: LoadBalancer
-    ports:
-    - port: 80
-      targetPort: 8080
-    selector:
-        app: ingress
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: ingress
 ---
 apiVersion : apps/v1
 kind: Deployment
@@ -25,11 +25,11 @@ spec:
         app: ingress 
     spec:
       containers:
-        - name: ingress 
-          image: sjohnsonaz.azurecr.io/docker-example/ingress
-          imagePullPolicy: IfNotPresent
-          ports:
-          - containerPort: 8080
+      - name: ingress 
+        image: sjohnsonaz.azurecr.io/docker-example/ingress
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
 # ---
 # apiVersion: networking.k8s.io/v1beta1
 # kind: Ingress

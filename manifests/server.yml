@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: server
 spec:
-    ports:
-    - port: 8080
-      targetPort: 8080
-    selector:
-        app: server
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: server
 ---
 apiVersion : apps/v1
 kind: Deployment
@@ -24,8 +24,8 @@ spec:
         app: server 
     spec:
       containers:
-        - name: server 
-          image: sjohnsonaz.azurecr.io/docker-example/server
-          imagePullPolicy: IfNotPresent 
-          ports:
-          - containerPort: 8080
+      - name: server 
+        image: sjohnsonaz.azurecr.io/docker-example/server
+        imagePullPolicy: IfNotPresent 
+        ports:
+        - containerPort: 8080
