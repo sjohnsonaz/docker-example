@@ -8,7 +8,8 @@ spec:
   - port: 80
     targetPort: 8080
   selector:
-    app: ingress
+    app: docker-example
+    component: ingress
 ---
 apiVersion : apps/v1
 kind: Deployment
@@ -17,12 +18,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: ingress 
+      app: docker-example
+      component: ingress
   replicas: 1
   template:
     metadata:
       labels:
-        app: ingress 
+        app: docker-example
+        component: ingress
     spec:
       containers:
       - name: ingress 

@@ -7,7 +7,8 @@ spec:
   - port: 8080
     targetPort: 8080
   selector:
-    app: server
+    app: docker-example
+    component: server
 ---
 apiVersion : apps/v1
 kind: Deployment
@@ -16,12 +17,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: server 
+      app: docker-example
+      component: server
   replicas: 1
   template:
     metadata:
       labels:
-        app: server 
+        app: docker-example
+        component: server
     spec:
       containers:
       - name: server 
