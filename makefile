@@ -169,10 +169,38 @@ dev-server-run:
 # Kubernetes Commands
 #--------------------
 
-.PHONY: install-ingress
-install-ingress:
-	kubectl apply\
+.PHONY: ingress-cloud-install
+ingress-cloud-install:
+	kubectl apply \
+		-f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v$(INGRESS_VERSION)/deploy/static/provider/cloud/deploy.yaml
+
+.PHONY: ingress-cloud-delete
+ingress-cloud-delete:
+	kubectl delete \
+		-f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v$(INGRESS_VERSION)/deploy/static/provider/cloud/deploy.yaml
+
+.PHONY: ingress-install
+ingress-install:
+	kubectl apply \
 		-f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v$(INGRESS_VERSION)/deploy/static/provider/do/deploy.yaml
+
+.PHONY: ingress-delete
+ingress-delete:
+	kubectl delete \
+		-f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v$(INGRESS_VERSION)/deploy/static/provider/do/deploy.yaml
+
+.PHONY: ingress-info-pods
+ingress-info-pods:
+	kubectl get pods \
+		-n ingress-nginx \
+		-l app.kubernetes.io/name=ingress-nginx \
+		--watch
+
+.PHONY: ingress-info-svc
+ingress-info-svc:
+	kubectl get svc \
+		-n ingress-nginx \
+		--watch
 
 .PHONY: namespace
 namespace:
@@ -180,8 +208,14 @@ namespace:
 		-f ./namespaces/
 
 .PHONY: apply
-apply: namespace
+apply:
 	kubectl apply\
+		-f ./manifests/\
+		--namespace=$(NAMESPACE)
+
+.PHONY: kube-delete
+kube-delete:
+	kubectl delete\
 		-f ./manifests/\
 		--namespace=$(NAMESPACE)
 
