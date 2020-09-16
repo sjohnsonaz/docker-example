@@ -1,6 +1,7 @@
 PROJECT = docker-example
 NAMESPACE = docker-example
 INGRESS_VERSION = 0.35.0
+CERT_MANAGER_VERSION=0.16.1
 
 default: up
 
@@ -201,6 +202,18 @@ ingress-info-svc:
 	kubectl get svc \
 		-n ingress-nginx \
 		--watch
+
+.PHONY: cert-manager-install
+cert-manager-install:
+	kubectl apply \
+		--validate=false \
+		-f https://github.com/jetstack/cert-manager/releases/download/v$(CERT_MANAGER_VERSION)/cert-manager.yaml
+
+.PHONY: cert-manager-delete
+cert-manager-delete:
+	kubectl delete \
+		--validate=false \
+		-f https://github.com/jetstack/cert-manager/releases/download/v$(CERT_MANAGER_VERSION)/cert-manager.yaml
 
 .PHONY: namespace
 namespace:

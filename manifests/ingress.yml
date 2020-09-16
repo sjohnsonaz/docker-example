@@ -41,9 +41,14 @@ metadata:
   annotations:
     # use the shared ingress-nginx
     kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
+  tls:
+  - hosts:
+    - docker-example.cascade.rocks
+    secretName: echo-tls
   rules:
-  - host: localhost
+  - host: docker-example.cascade.rocks
     http:
       paths:
       - path: /
