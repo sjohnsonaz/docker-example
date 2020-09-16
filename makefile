@@ -1,7 +1,7 @@
 PROJECT = docker-example
 NAMESPACE = docker-example
 INGRESS_VERSION = 0.35.0
-CERT_MANAGER_VERSION=0.16.1
+CERT_MANAGER_VERSION = 1.0.1
 
 default: up
 
