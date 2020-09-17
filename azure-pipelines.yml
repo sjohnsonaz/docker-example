@@ -20,7 +20,13 @@ variables:
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  
+
+parameters:
+  - name: services
+    type: string
+    default:
+      - client
+      - server
 
 stages:
 - stage: Build
@@ -86,9 +92,10 @@ stages:
               manifests: |
                 $(Pipeline.Workspace)/manifests/ingresses/certificate-prod.yml
                 $(Pipeline.Workspace)/manifests/ingresses/ingress.yml
-                $(Pipeline.Workspace)/manifests/services/*
+                ${{ each value in parameters.services }}:
+                  $(Pipeline.Workspace)/manifests/services/${{ value }}
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
-                $(containerRegistry)/$(imageRepository)/client:$(tag)
-                $(containerRegistry)/$(imageRepository)/server:$(tag)
+                ${{ each value in parameters.services }}:
+                  $(containerRegistry)/$(imageRepository)/${{ value }}:$(tag)
