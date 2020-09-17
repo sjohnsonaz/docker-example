@@ -21,9 +21,9 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: tls-secret-prd
+  name: tls-secret-prod
 spec:
-  secretName: tls-secret-prd
+  secretName: tls-secret-prod
   dnsNames:
     - docker-example.cascade.rocks
   issuerRef:
