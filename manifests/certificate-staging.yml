@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: certificate-staging
+spec:
+  secretName: certificate-staging
+  dnsNames:
+    - docker-example.cascade.rocks
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer

@@ -47,7 +47,7 @@ spec:
   tls:
   - hosts:
     - docker-example.cascade.rocks
-    secretName: tls-secret-prod
+    secretName: certificate-prod
   rules:
   - host: docker-example.cascade.rocks
     http:
