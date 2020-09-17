@@ -212,7 +212,6 @@ cert-manager-install:
 .PHONY: cert-manager-delete
 cert-manager-delete:
 	kubectl delete \
-		--validate=false \
 		-f https://github.com/jetstack/cert-manager/releases/download/v$(CERT_MANAGER_VERSION)/cert-manager.yaml
 
 .PHONY: namespace
