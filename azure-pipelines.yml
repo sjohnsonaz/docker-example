@@ -95,6 +95,7 @@ stages:
               manifests: |
                 $(Pipeline.Workspace)/manifests/client.yml
                 $(Pipeline.Workspace)/manifests/ingress.yml
+                $(Pipeline.Workspace)/manifests/prod_issuer.yml
                 $(Pipeline.Workspace)/manifests/server.yml
               imagePullSecrets: |
                 $(imagePullSecret)
