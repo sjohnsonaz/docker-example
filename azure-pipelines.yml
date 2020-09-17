@@ -37,15 +37,6 @@ stages:
         command: login
         containerRegistry: $(dockerRegistryServiceConnection)
     - task: Docker@2
-      displayName: Build and Push Ingress
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)/ingress
-        buildContext: '$(Build.SourcesDirectory)/ingress'
-        dockerfile: '$(Build.SourcesDirectory)/ingress/Dockerfile'
-        tags: |
-          $(tag)
-    - task: Docker@2
       displayName: Build and Push Client
       inputs:
         command: buildAndPush
@@ -93,13 +84,11 @@ stages:
               namespace: $(namespace)
               action: deploy
               manifests: |
-                $(Pipeline.Workspace)/manifests/client.yml
-                $(Pipeline.Workspace)/manifests/ingress.yml
-                $(Pipeline.Workspace)/manifests/certificate-prod.yml
-                $(Pipeline.Workspace)/manifests/server.yml
+                $(Pipeline.Workspace)/manifests/ingresses/certificate-prod.yml
+                $(Pipeline.Workspace)/manifests/ingresses/ingress.yml
+                $(Pipeline.Workspace)/manifests/services/*
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(imageRepository)/client:$(tag)
                 $(containerRegistry)/$(imageRepository)/server:$(tag)
-                $(containerRegistry)/$(imageRepository)/ingress:$(tag)

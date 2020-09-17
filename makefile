@@ -222,13 +222,15 @@ namespace:
 .PHONY: apply
 apply:
 	kubectl apply\
-		-f ./manifests/\
+		-f ./manifests/ingresses \
+		-f ./manifests/services \
 		--namespace=$(NAMESPACE)
 
 .PHONY: kube-delete
 kube-delete:
 	kubectl delete\
-		-f ./manifests/\
+		-f ./manifests/ingresses \
+		-f ./manifests/services \
 		--namespace=$(NAMESPACE)
 
 .PHONY: kube-local
