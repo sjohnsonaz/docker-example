@@ -5,7 +5,7 @@ metadata:
 spec:
   ports:
   - port: 80
-    targetPort: 80
+    targetPort: 8081
   selector:
     app: docker-example
     component: client
@@ -31,4 +31,4 @@ spec:
         image: sjohnsonaz.azurecr.io/docker-example/client
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 80
+        - containerPort: 8081
