@@ -1,16 +1,26 @@
-FROM node:latest AS builder
+# --- Dev ---
+FROM node:latest AS dev
 
-COPY package.json package-lock.json tsconfig.json webpack.config.js /
+WORKDIR /app/client
+
+COPY package.json package-lock.json ./
 
 RUN npm ci
 
-COPY ./src /src
+COPY tsconfig.json webpack.config.js ./
+COPY ./src ./src
+
+CMD npm start
+
+
+# --- Build ---
+FROM dev AS build
 
 RUN npm run build
 
 
+# --- Prod ---
+FROM nginx:latest AS prod
 
-FROM nginx:latest
-
-COPY --from=builder /build /usr/share/nginx/html
+COPY --from=build /app/client/build /usr/share/nginx/html
 COPY default.conf /etc/nginx/conf.d/

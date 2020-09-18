@@ -78,16 +78,16 @@ docs-down:
 
 .PHONY: dev-up
 dev-up: 
-	docker-compose\
-		-f docker-compose.yml\
-		-f docker-compose.dev.yml\
+	docker-compose \
+		-f docker-compose.yml \
+		-f docker-compose.dev.yml \
 		up
 
 .PHONY: dev-build
 dev-build:
-	docker-compose\
-		-f docker-compose.yml\
-		-f docker-compose.dev.yml\
+	docker-compose \
+		-f docker-compose.yml \
+		-f docker-compose.dev.yml \
 		build
 
 
@@ -119,8 +119,8 @@ dev-network-build:
 		-d bridge\
 		$(PROJECT)_network
 
-.PHONY: dev-build
-dev-build: dev-ingress-build dev-client-build dev-server-build
+.PHONY: dev-all-build
+dev-all-build: dev-ingress-build dev-client-build dev-server-build
 
 .PHONY: dev-ingress-build
 dev-ingress-build:

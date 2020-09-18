@@ -107,11 +107,14 @@ module.exports = {
         contentBase: path.join(__dirname, 'build'),
         compress: true,
         host: '0.0.0.0',
-        port: 8080,
+        port: 8081,
         historyApiFallback: true
     }
 };
 ```
+
+> Note: Webpack Dev Server has a Web Socket error when behind a reverse-proxy.
+> We should expose a different port than the reverse-proxy.
 
 ## Install React
 ``` bash
