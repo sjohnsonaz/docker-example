@@ -1,24 +1,45 @@
-FROM node:latest AS builder
+# --- Dev 0 ---
+FROM node:latest AS dev-0
 
-COPY package.json package-lock.json tsconfig.json /
+WORKDIR /app/server
 
-RUN npm install
+COPY package.json package-lock.json ./
 
-COPY /src /src
+RUN npm ci
+
+
+# --- Prod 0 ---
+FROM node:latest AS prod-0
+
+WORKDIR /app/server
+
+COPY package.json package-lock.json ./
+
+RUN npm ci --only=production
+
+
+# --- Dev ---
+FROM dev-0 AS dev
+
+COPY tsconfig.json ./
+COPY ./src ./src
+
+CMD npm start
+
+
+# --- Prod 1 ---
+FROM dev AS prod-1
 
 RUN npm run build
 
 
-
-FROM node:latest
-
-COPY package.json package-lock.json /
-
-RUN npm install --production
-
-COPY --from=builder /dist /dist
-COPY --from=builder /src /src
+# --- Prod ---
+FROM node:latest AS prod
 
 EXPOSE 8080
+WORKDIR /app/server
+
+COPY --from=prod-1 /app/server/dist ./dist
+COPY --from=prod-1 /app/server/src ./src
 
 CMD ["node", "./dist/index.js"]

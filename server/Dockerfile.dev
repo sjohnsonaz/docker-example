@@ -1,9 +1,0 @@
-FROM node:latest
-
-WORKDIR /server
-COPY . ./
-
-EXPOSE 8080
-EXPOSE 9229
-
-CMD npm start
