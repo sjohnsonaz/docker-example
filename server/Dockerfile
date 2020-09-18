@@ -39,6 +39,7 @@ FROM node:latest AS prod
 EXPOSE 8080
 WORKDIR /app/server
 
+COPY --from=prod-1 /app/server/node_modules ./node_modules
 COPY --from=prod-1 /app/server/dist ./dist
 COPY --from=prod-1 /app/server/src ./src
 
