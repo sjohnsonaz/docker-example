@@ -24,7 +24,7 @@ FROM dev-0 AS dev
 COPY tsconfig.json ./
 COPY ./src ./src
 
-CMD npm start
+CMD npm run watch
 
 
 # --- Prod 1 ---

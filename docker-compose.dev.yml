@@ -6,7 +6,7 @@ services:
     ports:
       - '9229:9229'
     volumes: 
-      - ./server:/server
+      - ./server:/app/server
       - server_node_modules:/server/node_modules
   client:
     build:
