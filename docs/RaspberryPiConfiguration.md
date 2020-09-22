@@ -53,7 +53,7 @@ static routers=192.168.1.1
 static domain_name_servers=192.168.1.1
 ```
 
-## Install Docker and Kubernetes
+## Install Docker
 
 ```
 #!/bin/sh
@@ -86,4 +86,43 @@ Or run
 ```# curl -sL \
  https://gist.githubusercontent.com/alexellis/fdbc90de7691a1b9edb545c17da2d975/raw/b04f1e9250c61a8ff554bfe3475b6dd050062484/prep.sh \
  | sudo sh
+```
+
+## Install Kubernetes
+
+https://ubuntu.com/tutorials/how-to-kubernetes-cluster-on-raspberry-pi
+
+Install Kubernetes on each node.
+``` bash
+sudo snap install microk8s --classic
+```
+
+Verify installation.
+``` bash
+snap info microk8s
+```
+
+Initialize Master node.
+``` bash
+sudo microk8s.add-node
+```
+
+Join Worker node to cluster.
+``` bash
+microk8s.join <master_ip>:<port>/<token>
+```
+
+Verify Worker node.
+``` bash
+microk8s.kubectl get node
+```
+
+Remove Worker node from cluster (on Master).
+``` bash
+sudo microk8s remove-node <node name>
+```
+
+Remove Worker node from cluster (on Worker).
+``` bash
+sudo microk8s.leave
 ```
