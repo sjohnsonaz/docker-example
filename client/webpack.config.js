@@ -9,7 +9,7 @@ module.exports = {
     },
     output: {
         filename: '[name]-[hash:6].js',
-        path: path.resolve(__dirname, './build')
+        path: path.resolve(__dirname, 'build')
     },
     optimization: {
         usedExports: true
