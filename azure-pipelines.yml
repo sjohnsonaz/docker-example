@@ -15,7 +15,8 @@ variables:
   containerRegistry: 'sjohnsonaz.azurecr.io'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'sjohnsonaz1874adbf-auth'
-  namespace: 'default'
+  namespace: 'docker-example'
+  environment: 'DockerExample.docker-example'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -65,7 +66,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'DockerExample.docker-example'
+    environment: $(environment)
     strategy:
       runOnce:
         deploy:
